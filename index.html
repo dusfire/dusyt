@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DusYT - Download YouTube Thumbnails</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/dusfire/icon@76a9e40/css/style.css"
+    />
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: #f0f2f5;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Header */
+      header {
+        background: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 15px;
+        height: 60px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #ff0000;
+        text-decoration: none;
+      }
+
+      .logo i {
+        font-size: 24px;
+      }
+
+      .logo span {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .profile-section {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .user-info {
+        display: none; /* Hidden by default, shown when logged in */
+        align-items: center;
+        gap: 10px;
+        background: #f0f2f5;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+
+      .user-info span {
+        font-size: 14px;
+      }
+
+      .login-btn {
+        background: #ff0000;
+        color: #fff;
+        padding: 8px 20px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background 0.3s;
+      }
+
+      .login-btn:hover {
+        background: #cc0000;
+      }
+
+      /* Main Content */
+      main {
+        margin-top: 80px;
+        padding: 20px;
+        flex: 1;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #1a1a1a;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      .url-input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+      }
+
+      .url-input:focus {
+        outline: none;
+        border-color: #ff0000;
+      }
+
+      .download-btn {
+        width: 100%;
+        padding: 12px;
+        background: #ff0000;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .download-btn:hover {
+        background: #cc0000;
+      }
+
+      /* Toast */
+      #toast {
+        position: fixed;
+        top: 70px;
+        right: 20px;
+        background: #333;
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: none;
+        animation: slideIn 0.3s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      /* Footer */
+      footer {
+        background: #1a1a1a;
+        color: #fff;
+        text-align: center;
+        padding: 15px;
+        margin-top: auto;
+      }
+
+      .footer-links {
+        margin-top: 8px;
+        font-size: 14px;
+      }
+
+      .footer-links a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 5px;
+        transition: color 0.3s;
+      }
+
+      .footer-links a:hover {
+        color: #ff0000;
+        text-decoration: underline;
+      }
+
+      /* Mobile Responsive */
+      @media (max-width: 768px) {
+        nav {
+          padding: 10px 15px;
+        }
+
+        .logo span {
+          font-size: 18px;
+        }
+
+        .user-info {
+          padding: 6px 10px;
+        }
+
+        .user-info .email {
+          display: none;
+        }
+
+        .container {
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: 20px;
+        }
+      }
+
+      /* Tablet Responsive */
+      @media (min-width: 769px) and (max-width: 1024px) {
+        .container {
+          margin: 0 20px;
+        }
+      }
+
+      /* Desktop Responsive */
+      @media (min-width: 1025px) {
+        nav {
+          padding: 15px 30px;
+        }
+
+        .container {
+          padding: 40px;
+        }
+
+        h1 {
+          font-size: 28px;
+        }
+      }
+
+      /* Add these styles to your existing CSS */
+
+      /* Preview Section */
+      #previewSection {
+        display: none;
+        margin-top: 20px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .preview-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .preview-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .preview-info {
+        text-align: center;
+        width: 100%;
+      }
+
+      .preview-info p {
+        margin-bottom: 10px;
+        color: #666;
+      }
+
+      .download-preview-btn {
+        background: #ff0000;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 auto;
+        transition: background 0.3s ease;
+      }
+
+      .download-preview-btn:hover {
+        background: #cc0000;
+      }
+
+      /* Loading Animation */
+      .bx-spin {
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .preview-container {
+          gap: 10px;
+        }
+
+        .preview-info {
+          padding: 10px;
+        }
+      }
+
+      /* Add loading overlay */
+      #loading {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="https://dusfire.github.io/dusyt/" class="logo">
+          <i class="dus-dtube"></i>
+          <span>DusYT</span>
+        </a>
+        <div class="profile-section">
+          <div class="user-info" id="userInfo">
+            <i class="bx bxs-user-circle"></i>
+            <span class="email" id="userEmail"></span>
+            <i class="bx bx-log-out" onclick="logout()"></i>
+          </div>
+          <a href="login-signup.html" class="login-btn" id="loginBtn">
+            <i class="dus-login1"></i> Login</a
+          >
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container">
+        <h1>YT Thumbnail Downloader</h1>
+        <div class="input-group">
+          <input
+            type="text"
+            class="url-input"
+            id="urlInput"
+            placeholder="Paste YouTube video URL here"
+          />
+        </div>
+        <button class="download-btn" onclick="downloadThumbnail()">
+          <i class="dus-download6"></i> Download Thumbnail
+        </button>
+      </div>
+
+      <!-- Add inside your container div -->
+      <div id="previewSection"></div>
+
+      <!-- Add at the end of body but before scripts -->
+      <div id="loading">
+        <i
+          class="bx bx-loader-alt bx-spin"
+          style="font-size: 48px; color: #ff0000"
+        ></i>
+      </div>
+    </main>
+
+    <div id="toast"></div>
+
+    <footer>
+      <p>&copy; 2025 DusYT. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="https://github.com/dusfire/dusyt" target="_blank">GitHub</a> |
+        <a href="usage.html">Usage</a> |
+        <a href="docs.html">Documentation</a>
+      </div>
+    </footer>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBf9rIbRGnZDCTWV93ppj0IjKbDXVordvs",
+        authDomain: "login-8e7c9.firebaseapp.com",
+        projectId: "login-8e7c9",
+        storageBucket: "login-8e7c9.firebasestorage.app",
+        messagingSenderId: "860486023707",
+        appId: "1:860486023707:web:632a49cca58d22a64496be",
+        measurementId: "G-W7YQF0YTRW",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const auth = getAuth();
+
+      onAuthStateChanged(auth, (user) => {
+        const userInfo = document.getElementById("userInfo");
+        const loginBtn = document.getElementById("loginBtn");
+        const userEmail = document.getElementById("userEmail");
+
+        if (user) {
+          userInfo.style.display = "flex";
+          loginBtn.style.display = "none";
+          userEmail.textContent = user.email;
+        } else {
+          userInfo.style.display = "none";
+          loginBtn.style.display = "block";
+        }
+      });
+
+      window.auth = auth;
+    </script>
+
+    <script>
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.style.display = "block";
+        setTimeout(() => (toast.style.display = "none"), 3000);
+      }
+
+      function getYouTubeVideoId(url) {
+        const regExp =
+          /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+        const match = url.match(regExp);
+        return match && match[7].length === 11 ? match[7] : false;
+      }
+
+      // Replace the downloadThumbnail function in your existing JavaScript with this improved version:
+
+      async function downloadThumbnail() {
+        if (!auth.currentUser) {
+          showToast("Please login to continue download");
+          return;
+        }
+
+        const urlInput = document.getElementById("urlInput");
+        const url = urlInput.value.trim();
+        const videoId = getYouTubeVideoId(url);
+        const previewSection = document.getElementById("previewSection");
+
+        if (!videoId) {
+          showToast("Invalid YouTube URL");
+          previewSection.style.display = "none";
+          return;
+        }
+
+        // Show loading state
+        const downloadBtn = document.querySelector(".download-btn");
+        const originalBtnText = downloadBtn.innerHTML;
+        downloadBtn.innerHTML =
+          '<i class="bx bx-loader-alt bx-spin"></i> Loading...';
+
+        // Try maxresdefault first, fallback to hqdefault if not available
+        const qualities = ["maxresdefault", "hqdefault"];
+        let thumbnailUrl;
+        let validUrl = false;
+
+        for (const quality of qualities) {
+          thumbnailUrl = `https://img.youtube.com/vi/${videoId}/${quality}.jpg`;
+          try {
+            const response = await fetch(thumbnailUrl);
+            if (response.ok) {
+              validUrl = true;
+              break;
+            }
+          } catch (error) {
+            console.error("Error checking thumbnail:", error);
+          }
+        }
+
+        if (!validUrl) {
+          showToast("Failed to load thumbnail");
+          downloadBtn.innerHTML = originalBtnText;
+          return;
+        }
+
+        // Update preview section
+        previewSection.innerHTML = `
+      <div class="preview-container">
+          <img src="${thumbnailUrl}" alt="Thumbnail Preview" class="preview-image">
+          <div class="preview-info">
+              <p>Preview of thumbnail</p>
+              <button onclick="downloadImage('${thumbnailUrl}', '${videoId}')" class="download-preview-btn">
+                  <i class="dus-download6"></i> Download Now
+              </button>
+          </div>
+      </div>
+  `;
+        previewSection.style.display = "block";
+
+        // Reset button state
+        downloadBtn.innerHTML = originalBtnText;
+      }
+
+      // Add this new function for handling the actual download
+      async function downloadImage(url, videoId) {
+        try {
+          const response = await fetch(url);
+          const blob = await response.blob();
+          const blobUrl = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = blobUrl;
+          link.download = `DusYT-${videoId}.png`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(blobUrl);
+          showToast("Download started!");
+        } catch (error) {
+          showToast("Download failed. Please try again.");
+          console.error("Download error:", error);
+        }
+      }
+
+      // Add these helper functions
+      function showLoading(show = true) {
+        const loadingEl = document.getElementById("loading");
+        if (show) {
+          loadingEl.style.display = "flex";
+        } else {
+          loadingEl.style.display = "none";
+        }
+      }
+
+      async function logout() {
+        try {
+          await auth.signOut();
+          showToast("Logged out successfully");
+        } catch (error) {
+          showToast("Error logging out");
+        }
+      }
+    </script>
+  </body>
+</html>

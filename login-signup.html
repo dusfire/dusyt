@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DusYT - Login & Sign Up</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/dusfire/icon@76a9e40/css/style.css"
+    />
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #f0f2f5;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Header */
+      header {
+        background: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 15px;
+        height: 60px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #ff0000;
+        text-decoration: none;
+      }
+
+      .logo i {
+        font-size: 24px;
+      }
+
+      .logo span {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      /* Main Content */
+      main {
+        margin-top: 80px;
+        padding: 20px;
+        flex: 1;
+      }
+
+      .auth-container {
+        max-width: 400px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .tabs {
+        display: flex;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #e0e0e0;
+      }
+
+      .tab {
+        flex: 1;
+        padding: 15px;
+        text-align: center;
+        cursor: pointer;
+        font-weight: 500;
+        color: #666;
+        transition: all 0.3s;
+      }
+
+      .tab.active {
+        color: #ff0000;
+        border-bottom: 2px solid #ff0000;
+        margin-bottom: -2px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-size: 14px;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: #ff0000;
+      }
+
+      .error {
+        color: #ff0000;
+        font-size: 12px;
+        margin-top: 5px;
+        display: none;
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 12px;
+        background: #ff0000;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .submit-btn:hover {
+        background: #cc0000;
+      }
+
+      .forgot-link {
+        text-align: center;
+        margin-top: 15px;
+      }
+
+      .forgot-link a {
+        color: #666;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .forgot-link a:hover {
+        color: #ff0000;
+      }
+
+      /* Toast */
+      #toast {
+        position: fixed;
+        top: 70px;
+        right: 20px;
+        background: #333;
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: none;
+        animation: slideIn 0.3s ease;
+        z-index: 1000;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      /* Footer */
+      footer {
+        background: #1a1a1a;
+        color: #fff;
+        text-align: center;
+        padding: 15px;
+        margin-top: auto;
+      }
+
+      .footer-links {
+        margin-top: 8px;
+        font-size: 14px;
+      }
+
+      .footer-links a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 5px;
+        transition: color 0.3s;
+      }
+
+      .footer-links a:hover {
+        color: #ff0000;
+        text-decoration: underline;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .auth-container {
+          margin: 0 10px;
+          padding: 20px;
+        }
+
+        nav {
+          padding: 10px 15px;
+        }
+
+        .logo span {
+          font-size: 18px;
+        }
+      }
+
+      /* Loading Spinner */
+      .loading {
+        display: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #fff;
+        border-top: 2px solid transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="https://dusfire.github.io/dusyt/" class="logo">
+          <i class="dus-dtube"></i>
+          <span>DusYT</span>
+        </a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="auth-container">
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab('login')">Login</div>
+          <div class="tab" onclick="switchTab('signup')">Sign Up</div>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label for="loginEmail"><i class="dus-email1"></i> Email</label>
+            <input type="email" id="loginEmail" class="form-input" required />
+            <div class="error" id="loginEmailError"></div>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword"><i class="dus-key2"></i> Password</label>
+            <input
+              type="password"
+              id="loginPassword"
+              class="form-input"
+              required
+            />
+            <div class="error" id="loginPasswordError"></div>
+          </div>
+          <button type="submit" class="submit-btn">
+            <span><i class="dus-login1"></i> Login</span>
+            <div class="loading"></div>
+          </button>
+          <div class="forgot-link">
+            <a href="#" onclick="showForgotPassword()">Forgot Password?</a>
+          </div>
+        </form>
+
+        <!-- Sign Up Form -->
+        <form
+          id="signupForm"
+          onsubmit="handleSignup(event)"
+          style="display: none"
+        >
+          <div class="form-group">
+            <label for="signupName"><i class="dus-user"></i> Full Name</label>
+            <input type="text" id="signupName" class="form-input" required />
+            <div class="error" id="nameError"></div>
+          </div>
+          <div class="form-group">
+            <label for="signupEmail"><i class="dus-email1"></i> Email</label>
+            <input type="email" id="signupEmail" class="form-input" required />
+            <div class="error" id="emailError"></div>
+          </div>
+          <div class="form-group">
+            <label for="signupPassword"
+              ><i class="dus-key2"></i> Password</label
+            >
+            <input
+              type="password"
+              id="signupPassword"
+              class="form-input"
+              required
+            />
+            <div class="error" id="passwordError"></div>
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword"
+              ><i class="dus-key2"></i> Confirm Password</label
+            >
+            <input
+              type="password"
+              id="confirmPassword"
+              class="form-input"
+              required
+            />
+            <div class="error" id="confirmError"></div>
+          </div>
+          <button type="submit" class="submit-btn">
+            <span><i class="dus-user-check"></i> Sign Up</span>
+            <div class="loading"></div>
+          </button>
+        </form>
+      </div>
+    </main>
+
+    <div id="toast"></div>
+
+    <footer>
+      <p>&copy; 2025 DusYT. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="https://github.com/dusfire/dusyt" target="_blank">GitHub</a> |
+        <a href="usage.html">Usage</a> |
+        <a href="docs.html">Documentation</a>
+      </div>
+    </footer>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+        updateProfile,
+        sendPasswordResetEmail,
+      } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBf9rIbRGnZDCTWV93ppj0IjKbDXVordvs",
+        authDomain: "login-8e7c9.firebaseapp.com",
+        projectId: "login-8e7c9",
+        storageBucket: "login-8e7c9.firebasestorage.app",
+        messagingSenderId: "860486023707",
+        appId: "1:860486023707:web:632a49cca58d22a64496be",
+        measurementId: "G-W7YQF0YTRW",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth();
+
+      window.auth = auth;
+      window.createUser = createUserWithEmailAndPassword;
+      window.signIn = signInWithEmailAndPassword;
+      window.updateProfile = updateProfile;
+      window.sendPasswordReset = sendPasswordResetEmail;
+    </script>
+
+    <script>
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.style.display = "block";
+        setTimeout(() => (toast.style.display = "none"), 3000);
+      }
+
+      function switchTab(tab) {
+        const loginForm = document.getElementById("loginForm");
+        const signupForm = document.getElementById("signupForm");
+        const tabs = document.querySelectorAll(".tab");
+
+        tabs.forEach((t) => t.classList.remove("active"));
+
+        if (tab === "login") {
+          loginForm.style.display = "block";
+          signupForm.style.display = "none";
+          tabs[0].classList.add("active");
+        } else {
+          loginForm.style.display = "none";
+          signupForm.style.display = "block";
+          tabs[1].classList.add("active");
+        }
+      }
+
+      async function handleLogin(e) {
+        e.preventDefault();
+        const email = document.getElementById("loginEmail").value;
+        const password = document.getElementById("loginPassword").value;
+
+        try {
+          await signIn(auth, email, password);
+          window.location.href = "/";
+        } catch (error) {
+          showToast(error.message);
+        }
+      }
+
+      async function handleSignup(e) {
+        e.preventDefault();
+        const name = document.getElementById("signupName").value;
+        const email = document.getElementById("signupEmail").value;
+        const password = document.getElementById("signupPassword").value;
+        const confirmPass = document.getElementById("confirmPassword").value;
+
+        // Validation
+        if (password !== confirmPass) {
+          showToast("Passwords don't match");
+          return;
+        }
+
+        if (password.length < 6) {
+          showToast("Password should be at least 6 characters");
+          return;
+        }
+
+        try {
+          const userCredential = await createUser(auth, email, password);
+          await updateProfile(userCredential.user, {
+            displayName: name,
+          });
+          window.location.href = "/";
+        } catch (error) {
+          showToast(error.message);
+        }
+      }
+
+      async function showForgotPassword() {
+        const email = prompt("Enter your email address:");
+        if (email) {
+          try {
+            await sendPasswordReset(auth, email);
+            showToast("Password reset email sent!");
+          } catch (error) {
+            showToast(error.message);
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

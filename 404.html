@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - Page Not Found | DusTY</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/dusfire/icon@76a9e40/css/style.css"
+    />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: #f0f2f5;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .error-container {
+        text-align: center;
+        max-width: 500px;
+        width: 100%;
+        padding: 40px 20px;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        animation: slideUp 0.5s ease;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .error-icon {
+        font-size: 80px;
+        color: #ff0000;
+        margin-bottom: 20px;
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-20px);
+        }
+        60% {
+          transform: translateY(-10px);
+        }
+      }
+
+      h1 {
+        font-size: 48px;
+        color: #1a1a1a;
+        margin-bottom: 10px;
+      }
+
+      p {
+        color: #666;
+        font-size: 18px;
+        line-height: 1.6;
+        margin-bottom: 30px;
+      }
+
+      .home-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #ff0000;
+        color: #fff;
+        text-decoration: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .home-btn:hover {
+        background: #cc0000;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+      }
+
+      .home-btn i {
+        font-size: 20px;
+      }
+
+      /* Mobile Responsive */
+      @media (max-width: 768px) {
+        .error-container {
+          padding: 30px 15px;
+        }
+
+        .error-icon {
+          font-size: 60px;
+        }
+
+        h1 {
+          font-size: 36px;
+        }
+
+        p {
+          font-size: 16px;
+          margin-bottom: 25px;
+        }
+
+        .home-btn {
+          padding: 10px 25px;
+          font-size: 15px;
+        }
+      }
+
+      /* Tablet Responsive */
+      @media (min-width: 769px) and (max-width: 1024px) {
+        .error-container {
+          max-width: 600px;
+        }
+      }
+
+      /* Error Page Animation */
+      .error-container:hover .error-icon {
+        animation: shake 0.5s ease-in-out;
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-5px);
+        }
+        75% {
+          transform: translateX(5px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="error-container">
+      <i class="bx bx-error-circle error-icon"></i>
+      <h1>404</h1>
+      <p>Oops! The page you're looking for doesn't exist.</p>
+      <a href="https://dusfire.github.io/dusyt/" class="home-btn">
+        <i class="dus-home"></i>
+        Back to Home
+      </a>
+    </div>
+  </body>
+</html>

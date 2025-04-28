@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DusTY - Login & Signup Documentation</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/dusfire/icon@76a9e40/css/style.css"
+    />
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: #f0f2f5;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Header */
+      header {
+        background: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 15px;
+        height: 60px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #ff0000;
+        text-decoration: none;
+      }
+
+      .logo i {
+        font-size: 24px;
+      }
+
+      .logo span {
+        font-size: 20px;
+        font-weight: 600 !important;
+      }
+
+      .profile-section {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .user-info {
+        display: none; /* Hidden by default, shown when logged in */
+        align-items: center;
+        gap: 10px;
+        background: #f0f2f5;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+
+      .user-info span {
+        font-size: 14px;
+      }
+
+      .login-btn {
+        background: #ff0000;
+        color: #fff;
+        padding: 8px 20px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background 0.3s;
+      }
+
+      .login-btn:hover {
+        background: #cc0000;
+      }
+
+      /* Main Content */
+      main {
+        margin-top: 80px;
+        padding: 20px;
+        flex: 1;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 30px;
+      }
+
+      h1 {
+        color: #1a1a1a;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 28px;
+      }
+
+      .section {
+        margin-bottom: 40px;
+      }
+
+      .section h2 {
+        color: #ff0000;
+        font-size: 22px;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #f0f2f5;
+        padding-bottom: 8px;
+      }
+
+      .section p {
+        margin-bottom: 15px;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      .doc-card {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 4px solid #ff0000;
+      }
+
+      .doc-card h3 {
+        color: #333;
+        margin-bottom: 10px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+      }
+
+      .doc-card h3 i {
+        margin-right: 8px;
+        color: #ff0000;
+      }
+
+      .doc-card p {
+        margin-bottom: 10px;
+      }
+
+      .doc-card ul,
+      .doc-card ol {
+        margin-left: 20px;
+        margin-bottom: 15px;
+      }
+
+      .doc-card li {
+        margin-bottom: 8px;
+        line-height: 1.5;
+      }
+
+      .doc-image {
+        margin: 15px 0;
+        text-align: center;
+      }
+
+      .doc-image img {
+        max-width: 100%;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+      }
+
+      .image-caption {
+        font-size: 14px;
+        color: #666;
+        text-align: center;
+        margin-top: 8px;
+      }
+
+      .code-block {
+        background: #f1f1f1;
+        padding: 12px;
+        border-radius: 5px;
+        font-family: monospace;
+        white-space: pre-wrap;
+        margin: 15px 0;
+        overflow-x: auto;
+        border: 1px solid #e0e0e0;
+      }
+
+      .faq-item {
+        margin-bottom: 20px;
+      }
+
+      .faq-item h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .faq-item p {
+        color: #555;
+      }
+
+      .tip {
+        background: #fff8e1;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+        border-left: 4px solid #ffc107;
+      }
+
+      .tip h4 {
+        display: flex;
+        align-items: center;
+        color: #ff8f00;
+        margin-bottom: 8px;
+      }
+
+      .tip h4 i {
+        margin-right: 8px;
+      }
+
+      /* Toast */
+      #toast {
+        position: fixed;
+        top: 70px;
+        right: 20px;
+        background: #333;
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: none;
+        animation: slideIn 0.3s ease;
+        z-index: 1000;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      /* Table Styles */
+      table {
+        width: 100% !important;
+        border-collapse: collapse;
+        margin: 15px 0;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      th {
+        background: #f5f5f5;
+        font-weight: 600;
+      }
+
+      tr {
+        width: 100% !important;
+      }
+
+      tr:hover {
+        background: #f9f9f9;
+      }
+
+      /* Footer */
+      footer {
+        background: #1a1a1a;
+        color: #fff;
+        text-align: center;
+        padding: 15px;
+        margin-top: auto;
+      }
+
+      .footer-links {
+        margin-top: 8px;
+        font-size: 14px;
+      }
+
+      .footer-links a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 5px;
+        transition: color 0.3s;
+      }
+
+      .footer-links a:hover {
+        color: #ff0000;
+        text-decoration: underline;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        nav {
+          padding: 10px 15px;
+        }
+
+        .logo span {
+          font-size: 18px;
+          font-weight: 600 !important;
+        }
+
+        .container {
+          padding: 10px;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+
+        .section h2 {
+          font-size: 20px;
+        }
+
+        .doc-card {
+          padding: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="https://dusfire.github.io/dusyt/" class="logo">
+          <i class="dus-dtube"></i>
+          <span>DusTY</span>
+        </a>
+        <div class="profile-section">
+          <div class="user-info" id="userInfo">
+            <i class="bx bxs-user-circle"></i>
+            <span class="email" id="userEmail"></span>
+            <i class="bx bx-log-out" onclick="logout()"></i>
+          </div>
+          <a href="login-signup.html" class="login-btn" id="loginBtn">
+            <i class="dus-login1"></i> Login</a
+          >
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container">
+        <h1>DusTY Login & Signup Documentation</h1>
+
+        <div class="section">
+          <h2>Authentication Technical Details</h2>
+
+          <div class="doc-card">
+            <h3><i class="dus-database2"></i> How It Works</h3>
+            <p>
+              When you create an account or log in, the process follows these
+              steps:
+            </p>
+            <ol>
+              <li>
+                <strong>Form Submission:</strong> Your credentials are submitted
+                securely via HTTPS.
+              </li>
+              <li>
+                <strong>Firebase Authentication:</strong> DusTY uses Firebase
+                Authentication to securely handle user credentials.
+              </li>
+              <li>
+                <strong>Credential Verification:</strong> Firebase verifies the
+                provided email and password.
+              </li>
+              <li>
+                <strong>Session Creation:</strong> Upon successful
+                authentication, a secure session is created for your browser.
+              </li>
+              <li>
+                <strong>Profile Retrieval:</strong> Your user profile
+                information is loaded from the database.
+              </li>
+            </ol>
+            <div class="doc-image">
+              <img
+                src="assets/Authentication-flow-diagram.png"
+                alt="Authentication flow diagram"
+              />
+              <div class="image-caption">
+                Simplified authentication flow diagram
+              </div>
+            </div>
+          </div>
+
+          <div class="doc-card">
+            <h3><i class="dus-code1"></i> Implementation Details</h3>
+            <p>
+              DusTY implements user authentication using the following Firebase
+              Authentication methods:
+            </p>
+            <div class="code-block">
+              // For new user registration createUserWithEmailAndPassword(auth,
+              email, password) .then((userCredential) => { // Update user
+              profile with name updateProfile(userCredential.user, {
+              displayName: name }); // Redirect to homepage }) .catch((error) =>
+              { // Handle errors }); // For user login
+              signInWithEmailAndPassword(auth, email, password)
+              .then((userCredential) => { // Redirect to homepage })
+              .catch((error) => { // Handle errors }); // For password reset
+              sendPasswordResetEmail(auth, email) .then(() => { // Notify user
+              }) .catch((error) => { // Handle errors });
+            </div>
+            <p>
+              These methods ensure secure handling of user authentication while
+              providing a smooth user experience.
+            </p>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>User Session Management</h2>
+          <p>
+            After successful authentication, DusTY manages your user session to
+            keep you logged in across page visits until you explicitly log out.
+          </p>
+
+          <div class="doc-card">
+            <h3><i class="dus-profile"></i> User Profiles</h3>
+            <p>
+              Once logged in, your profile information is displayed in the
+              navigation bar, showing your email address. You can use this
+              indicator to verify your login status.
+            </p>
+            <div class="doc-image">
+              <img
+                src="assets/User-profile-display.png"
+                alt="User profile display"
+              />
+              <div class="image-caption">
+                User profile display in the navigation bar
+              </div>
+            </div>
+          </div>
+
+          <div class="doc-card">
+            <h3><i class="dus-logout"></i> Logging Out</h3>
+            <p>To log out of your DusTY account:</p>
+            <ol>
+              <li>
+                Click on the logout icon (<i class="bx bx-log-out"></i>) in the
+                user info section in the navigation bar.
+              </li>
+              <li>The system will clear your session data.</li>
+              <li>
+                You'll be returned to a logged-out state, requiring login for
+                further access to protected features.
+              </li>
+            </ol>
+            <div class="tip">
+              <h4><i class="bx bx-bulb"></i> Security Tip</h4>
+              <p>
+                Always log out when using DusTY on shared or public computers to
+                protect your account from unauthorized access.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Frequently Asked Questions</h2>
+
+          <div class="faq-item">
+            <h3>Q: Can I use DusTY without creating an account?</h3>
+            <p>
+              No, DusTY requires all users to create an account and log in
+              before accessing the thumbnail download functionality. This helps
+              us maintain service quality and provide personalized features.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <h3>Q: Is my password stored securely?</h3>
+            <p>
+              Yes, DusTY never stores your actual password. We use Firebase
+              Authentication which employs industry-standard hashing and salting
+              techniques to securely store credential information.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <h3>Q: What if I enter my password incorrectly?</h3>
+            <p>
+              If you enter an incorrect password, you'll see an error message.
+              After multiple failed attempts, your account may be temporarily
+              locked for security reasons. Use the "Forgot Password" feature to
+              reset your password if needed.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <h3>Q: Can I change my email address or password?</h3>
+            <p>
+              Yes, once logged in, you can update your account information
+              including your password through the account settings (coming
+              soon). Email address changes may require verification of the new
+              address.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <h3>Q: How long does my login session last?</h3>
+            <p>
+              By default, your login session will persist until you explicitly
+              log out or clear your browser cookies. For security reasons,
+              extended periods of inactivity may require you to log in again.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <h3>Q: I'm having trouble logging in. What should I do?</h3>
+            <p>If you're experiencing login issues, try these steps:</p>
+            <ol>
+              <li>
+                Verify that you're using the correct email address and password.
+              </li>
+              <li>Check if Caps Lock is enabled on your keyboard.</li>
+              <li>Try the "Forgot Password" feature to reset your password.</li>
+              <li>Clear your browser cache and cookies, then try again.</li>
+              <li>
+                Use a different browser or device to rule out browser-specific
+                issues.
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Privacy and Data Protection</h2>
+
+          <div class="doc-card">
+            <h3><i class="dus-shield-check"></i> How We Protect Your Data</h3>
+            <p>
+              DusTY takes user privacy seriously. Here's how we protect your
+              information:
+            </p>
+            <ul>
+              <li>
+                <strong>Encryption:</strong> All communication between your
+                browser and our servers is encrypted using HTTPS.
+              </li>
+              <li>
+                <strong>Password Protection:</strong> We never store your actual
+                password, only securely hashed versions.
+              </li>
+              <li>
+                <strong>Limited Data Collection:</strong> We only collect
+                information necessary for account functionality.
+              </li>
+              <li>
+                <strong>No Third-Party Sharing:</strong> Your personal
+                information is never sold or shared with third parties.
+              </li>
+            </ul>
+          </div>
+
+          <div class="doc-card">
+            <h3><i class="dus-database2"></i> What Data We Store</h3>
+            <p>
+              When you create an account, we store the following information:
+            </p>
+            <table>
+              <tr>
+                <th>Data</th>
+                <th>Purpose</th>
+                <th>Storage Duration</th>
+              </tr>
+              <tr>
+                <td>Email Address</td>
+                <td>Account identification and communication</td>
+                <td>Until account deletion</td>
+              </tr>
+              <tr>
+                <td>Name</td>
+                <td>Personalization</td>
+                <td>Until account deletion</td>
+              </tr>
+              <tr>
+                <td>Hashed Password</td>
+                <td>Authentication</td>
+                <td>Until password change or account deletion</td>
+              </tr>
+              <tr>
+                <td>Thumbnail History</td>
+                <td>Service functionality</td>
+                <td>90 days</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Future Authentication Features</h2>
+          <p>
+            DusTY is constantly evolving to provide better user experience and
+            security. Here are some authentication features we plan to implement
+            in future updates:
+          </p>
+
+          <div class="doc-card">
+            <h3><i class="dus-rocket"></i> Coming Soon</h3>
+            <ul>
+              <li>
+                <strong>Social Media Login:</strong> One-click login with
+                Google, Facebook, and other popular platforms.
+              </li>
+              <li>
+                <strong>Two-Factor Authentication (2FA):</strong> Additional
+                security layer using email or SMS verification.
+              </li>
+              <li>
+                <strong>Remember Me:</strong> Option to stay logged in on
+                trusted devices.
+              </li>
+              <li>
+                <strong>Account Management Dashboard:</strong> Update profile
+                information, change password, and manage connected devices.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Support and Feedback</h2>
+          <p>
+            If you encounter any issues with the login or signup process, or
+            have suggestions for improvements, we'd love to hear from you.
+          </p>
+
+          <div class="doc-card">
+            <h3><i class="dus-support1"></i> Contact Support</h3>
+            <p>
+              For authentication-related issues, please contact us through one
+              of these channels:
+            </p>
+            <ul>
+              <li>
+                Email:
+                <a href="mailto:contactiswar@gmail.com">dusyt@proton.me</a>
+              </li>
+              <li>
+                GitHub:
+                <a
+                  href="https://github.com/dusfire/dusyt/issues/new"
+                  target="_blank"
+                  >Submit an issue</a
+                >
+              </li>
+            </ul>
+            <p>When reporting an issue, please include:</p>
+            <ul>
+              <li>
+                The email address you're trying to use (never include your
+                password)
+              </li>
+              <li>The error message you're receiving (if any)</li>
+              <li>Steps to reproduce the issue</li>
+              <li>Browser and device information</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="toast"></div>
+
+    <footer>
+      <p>&copy; 2025 DusTY. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="https://github.com/dusfire/dusyt" target="_blank">GitHub</a> |
+        <a href="usage.html">Usage</a> |
+        <a href="docs.html">Documentation</a>
+      </div>
+    </footer>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBf9rIbRGnZDCTWV93ppj0IjKbDXVordvs",
+        authDomain: "login-8e7c9.firebaseapp.com",
+        projectId: "login-8e7c9",
+        storageBucket: "login-8e7c9.firebasestorage.app",
+        messagingSenderId: "860486023707",
+        appId: "1:860486023707:web:632a49cca58d22a64496be",
+        measurementId: "G-W7YQF0YTRW",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const auth = getAuth();
+
+      onAuthStateChanged(auth, (user) => {
+        const userInfo = document.getElementById("userInfo");
+        const loginBtn = document.getElementById("loginBtn");
+        const userEmail = document.getElementById("userEmail");
+
+        if (user) {
+          userInfo.style.display = "flex";
+          loginBtn.style.display = "none";
+          userEmail.textContent = user.email;
+        } else {
+          userInfo.style.display = "none";
+          loginBtn.style.display = "block";
+        }
+      });
+
+      window.auth = auth;
+    </script>
+
+    <script>
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.style.display = "block";
+        setTimeout(() => (toast.style.display = "none"), 3000);
+      }
+
+      async function logout() {
+        try {
+          await auth.signOut();
+          showToast("Logged out successfully");
+        } catch (error) {
+          showToast("Error logging out");
+        }
+      }
+    </script>
+  </body>
+</html>
