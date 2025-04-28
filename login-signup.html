@@ -429,7 +429,7 @@
 
         try {
           await signIn(auth, email, password);
-          window.location.href = "/";
+          window.location.href = "https://dusfire.github.io/dusyt/";
         } catch (error) {
           showToast(error.message);
         }
@@ -458,7 +458,7 @@
           await updateProfile(userCredential.user, {
             displayName: name,
           });
-          window.location.href = "/";
+          window.location.href = "https://dusfire.github.io/dusyt/";
         } catch (error) {
           showToast(error.message);
         }
